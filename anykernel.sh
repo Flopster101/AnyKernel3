@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=Base Kernel for Ginkgo @ Flopster101
+kernel.string=Base Kernel @ Flopster101
 do.devicecheck=1
 do.modules=0
 do.systemless=1
@@ -12,8 +12,8 @@ do.cleanup=1
 do.cleanuponabort=0
 device.name1=ginkgo
 device.name2=willow
-device.name3=
-device.name4=
+device.name3=mojito
+device.name4=sunny
 device.name5=
 supported.versions=11.0-12.0
 supported.patchlevels=
@@ -21,7 +21,7 @@ supported.patchlevels=
 
 # shell variables
 block=/dev/block/bootdevice/by-name/boot;
-is_slot_device=0;
+is_slot_device=1;
 ramdisk_compression=auto;
 patch_vbmeta_flag=auto;
 
