@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=TinyCK Nethunter BETA for Ginkgo/Willow by @Flopster101
+kernel.string=TinyCK Nethunter MS6 for Ginkgo/Willow by @Flopster101
 do.devicecheck=1
 do.modules=0
 do.systemless=1
