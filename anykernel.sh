@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=CaraKernel Milestone 10.1 for Ginkgo @Flopster101
+kernel.string=CaraKernel Milestone 11 for Ginkgo @Flopster101
 do.devicecheck=1
 do.modules=0
 do.systemless=1
@@ -15,7 +15,7 @@ device.name2=willow
 device.name3=
 device.name4=
 device.name5=
-supported.versions=11.0-13.0
+supported.versions=11.0-14.0
 supported.patchlevels=
 '; } # end properties
 
