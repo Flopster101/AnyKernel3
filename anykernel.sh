@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=CaraKernel Milestone 12 for Ginkgo @Flopster101
+kernel.string=CaraKernel Milestone 13 for Ginkgo | @Flopster101
 do.devicecheck=1
 do.modules=0
 do.systemless=1
