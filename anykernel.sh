@@ -37,8 +37,10 @@ split_boot;
 if [ -d "/dev/block/mapper" ]; then
     blockdev --setrw /dev/block/mapper/system
     blockdev --setrw /dev/block/mapper/vendor
+	ui_print "Patching for dynamic partitions..."
     patch_cmdline "plain_partitions" ""
 else
+	ui_print "Patching for plain partitions..."
     patch_cmdline "plain_partitions" "plain_partitions"
 fi
 
