@@ -30,19 +30,28 @@ patch_vbmeta_flag=auto;
 # import patching functions/variables - see for reference
 . tools/ak3-core.sh;
 
+## AnyKernel boot install
+split_boot;
+
+# Retrofit dynamic partitions
+if [ -d "/dev/block/mapper" ]; then
+    blockdev --setrw /dev/block/mapper/system
+    blockdev --setrw /dev/block/mapper/vendor
+    patch_cmdline "plain_partitions" ""
+else
+    patch_cmdline "plain_partitions" "plain_partitions"
+fi
+
 
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
 set_perm_recursive 0 0 755 644 $ramdisk/*;
 set_perm_recursive 0 0 750 750 $ramdisk/init* $ramdisk/sbin;
 
-
-## AnyKernel boot install
-dump_boot;
-
 # end ramdisk changes
 
-write_boot;
+flash_boot;
+flash_dtbo;
 ## end boot install
 
 
