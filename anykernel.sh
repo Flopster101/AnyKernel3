@@ -44,24 +44,6 @@ else
     patch_cmdline "plain_partitions" "plain_partitions"
 fi
 
-ui_print "Mounting /vendor..."
-mount -o rw,remount /vendor
-
-if grep -q "/dev/block/bootdevice/by-name/vendor" /vendor/etc/fstab.qcom; then
-    ui_print "Old init style detected! Patching fstab to support two-stage init..."
-    if cp /vendor/etc/fstab.qcom /vendor/etc/fstab.qcom.bak_ck; then
-        ui_print "Backup made to /vendor/etc/fstab.qcom.bak_ck! You will need this to revert changes."
-    else
-        ui_print "Could not make backup of fstab! Aborting..."
-        abort
-    fi
-    sed -i "/\/dev\/block\/bootdevice\/by-name\/vendor/ c\/dev/block/by-name/vendor                /vendor         ext4  ro,barrier=1,discard                 wait,avb,first_stage_mount" /vendor/etc/fstab.qcom
-    sed -i "/\/dev\/block\/bootdevice\/by-name\/system/ c\/dev/block/by-name/system                /system         ext4  ro,barrier=1,discard                 wait,avb,first_stage_mount" /vendor/etc/fstab.qcom
-    sed -i "/\/dev\/block\/bootdevice\/by-name\/metadata/ c\/dev/block/by-name/metadata                /metadata         ext4  noatime,nosuid,nodev,discard                 wait,check,formattable,wrappedkey,first_stage_mount" /vendor/etc/fstab.qcom
-    ui_print "Fstab patching success!"
-else
-    ui_print "Old init style not detected. Proceeding normally..."
-fi
 
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
