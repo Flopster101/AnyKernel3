@@ -44,6 +44,12 @@ else
     patch_cmdline "plain_partitions" "plain_partitions"
 fi
 
+ui_print "Mounting /vendor..."
+mount -o rw,remount /vendor
+
+# Remove forced zram algorithm setting
+remove_line "/vendor/etc/init/hw/init.ginkgo.rc" "comp_algorithm" "global"
+ui_print "Patching init.ginkgo.rc done!"
 
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
