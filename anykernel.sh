@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=CaraKernel Nethunter MS19 for Ginkgo | @Flopster101
+kernel.string=CaraKernel Nethunter MS20 for Ginkgo | @Flopster101
 do.devicecheck=1
 do.modules=0
 do.systemless=1
