@@ -33,24 +33,6 @@ patch_vbmeta_flag=auto;
 ## AnyKernel boot install
 split_boot;
 
-# Retrofit dynamic partitions
-if [ -d "/dev/block/mapper" ]; then
-    blockdev --setrw /dev/block/mapper/system
-    blockdev --setrw /dev/block/mapper/vendor
-	ui_print "Patching for dynamic partitions..."
-    patch_cmdline "plain_partitions" ""
-else
-	ui_print "Patching for plain partitions..."
-    patch_cmdline "plain_partitions" "plain_partitions"
-fi
-
-ui_print "Mounting /vendor..."
-mount -o rw,remount /vendor
-
-# Remove forced zram algorithm setting
-remove_line "/vendor/etc/init/hw/init.ginkgo.rc" "comp_algorithm" "global"
-ui_print "Patching init.ginkgo.rc done!"
-
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
 set_perm_recursive 0 0 755 644 $ramdisk/*;
