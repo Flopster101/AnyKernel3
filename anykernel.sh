@@ -33,6 +33,19 @@ patch_vbmeta_flag=auto;
 ## AnyKernel boot install
 split_boot;
 
+if [ -e /dev/block/by-name/vendor ]; then
+    mount /dev/block/by-name/vendor /vendor
+else
+    mount /vendor
+fi
+# Check for the presence of "first_stage_mount" in /vendor/etc/fstab
+if grep -q "first_stage_mount" /vendor/etc/fstab.qcom; then
+	ui_print "Two-stage init ROM detected, no need to patch"
+else
+	ui_print "Legacy ROM detected, patching cmdline..."
+	patch_cmdline "fstabdt_keep" "fstabdt_keep"
+fi
+
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
 set_perm_recursive 0 0 755 644 $ramdisk/*;
