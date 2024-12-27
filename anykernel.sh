@@ -20,7 +20,7 @@ supported.patchlevels=
 '; } # end properties
 
 # shell variables
-block=/dev/block/bootdevice/by-name/boot;
+block=/dev/block/by-name/boot;
 is_slot_device=0;
 ramdisk_compression=auto;
 patch_vbmeta_flag=auto;
@@ -33,17 +33,33 @@ patch_vbmeta_flag=auto;
 ## AnyKernel boot install
 split_boot;
 
-if [ -e /dev/block/by-name/vendor ]; then
-    mount /dev/block/by-name/vendor /vendor
-else
-    mount /vendor
+# Check if vendor isn't already mounted. This should make the detection work on flasher apps.
+do_patch=1;
+if [ ! -e /vendor/etc/fstab.qcom ]; then
+	if [ -e /dev/block/by-name/vendor ]; then
+		mount /dev/block/by-name/vendor /vendor
+		if [ $? -ne 0 ]; then
+			do_patch=0
+		fi
+	else
+	# If the block device for vendor isn't present at that location, it might mean this a dynamic partitions ROM.
+		mount /vendor
+		if [ $? -ne 0 ]; then
+			do_patch=0
+		fi
+	fi
 fi
+
 # Check for the presence of "first_stage_mount" in /vendor/etc/fstab
-if grep -q "first_stage_mount" /vendor/etc/fstab.qcom; then
-	ui_print "Two-stage init ROM detected, no need to patch"
+if [ $do_patch -eq 1 ]; then
+	if grep -q "first_stage_mount" /vendor/etc/fstab.qcom; then
+		ui_print "Two-stage init ROM detected, no need to patch"
+	else
+		ui_print "Legacy ROM detected, patching cmdline..."
+		patch_cmdline "fstabdt_keep" "fstabdt_keep"
+	fi
 else
-	ui_print "Legacy ROM detected, patching cmdline..."
-	patch_cmdline "fstabdt_keep" "fstabdt_keep"
+	ui_print "Skipping cmdline patch because vendor could not be mounted!"
 fi
 
 ## AnyKernel file attributes
